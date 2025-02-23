@@ -1,0 +1,58 @@
+<div th:fragment="sidebar">
+    <div id="layoutSidenav_nav">
+        <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+            <div class="sb-sidenav-menu">
+                <div class="nav">
+                    <div class="sb-sidenav-menu-heading">Core</div>
+                    <a class="nav-link" href="/">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Dashboard
+                    </a>
+
+                    <div class="sb-sidenav-menu-heading">Gestión</div>
+
+                    <!-- Sección de Productos -->
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseProductos" aria-expanded="false" aria-controls="collapseProductos">
+                        <div class="sb-nav-link-icon"><i class="fas fa-box"></i></div>
+                        Productos
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapseProductos" aria-labelledby="headingProductos" data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" th:href="@{/administrador/productos}">Lista de Productos</a>
+                        </nav>
+                    </div>
+
+                    <!-- Sección de Ventas -->
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseVentas" aria-expanded="false" aria-controls="collapseVentas">
+                        <div class="sb-nav-link-icon"><i class="fas fa-shopping-cart"></i></div>
+                        Ventas
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapseVentas" aria-labelledby="headingVentas" data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+							<a class="nav-link" th:href="@{/administrador/ventas/lista}">Lista de Ventas</a>
+                            <a class="nav-link" th:href="@{/administrador/ventas/nuevo}">Realizar Venta</a>
+                        </nav>
+                    </div>
+					
+					<!-- Sección de Usuarios -->
+					<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseUsuarios" aria-expanded="false" aria-controls="collapseUsuarios">
+					    <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+					    Usuarios
+					    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+					</a>
+					<div class="collapse" id="collapseUsuarios" aria-labelledby="headingUsuarios" data-bs-parent="#sidenavAccordion">
+					    <nav class="sb-sidenav-menu-nested nav">
+					        <a class="nav-link" th:href="@{/administrador/usuarios/listado}">Lista de Usuarios</a>
+					    </nav>
+					</div>
+                </div>
+            </div>
+            <div class="sb-sidenav-footer">
+                <div class="small">Logged in as:</div>
+                Start Bootstrap
+            </div>
+        </nav>
+    </div>
+</div>

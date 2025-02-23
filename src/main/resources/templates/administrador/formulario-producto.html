@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Agregar Producto</title>
+    <link th:href="@{/css/styles.css}" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+</head>
+<body class="sb-nav-fixed">
+    <div th:replace="administrador/fragments/navbar :: navbar"></div>
+    <div id="layoutSidenav">
+        <div th:replace="administrador/fragments/sidebar :: sidebar"></div>
+        <div id="layoutSidenav_content">
+            <main>
+                <div class="container-fluid px-4">
+                    <h1 class="mt-4">Agregar Producto</h1>
+                    <ol class="breadcrumb mb-4">
+                        <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="/administrador/productos">Productos</a></li>
+                        <li class="breadcrumb-item active">Agregar Producto</li>
+                    </ol>
+
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <i class="fas fa-box"></i> Nuevo Producto
+                        </div>
+                        <div class="card-body">
+                            <form th:action="@{/administrador/productos/guardar}" method="post" th:object="${producto}">
+                                <div class="mb-3">
+                                    <label class="form-label">Nombre:</label>
+                                    <input type="text" class="form-control" th:field="*{nombre}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Descripción:</label>
+                                    <textarea class="form-control" th:field="*{descripcion}" required></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Precio:</label>
+                                    <input type="number" class="form-control" th:field="*{precio}" step="any" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Stock:</label>
+                                    <input type="number" class="form-control" th:field="*{stock}" required>
+                                </div>
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-save"></i> Guardar
+                                </button>
+                                <a href="/administrador/productos" class="btn btn-secondary">
+                                    <i class="fas fa-arrow-left"></i> Cancelar
+                                </a>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <div th:replace="administrador/fragments/footer :: footer"></div>
+        </div>
+    </div>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+	<script th:src="@{/js/scripts.js}"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+	<script th:src="@{/assets/demo/chart-area-demo.js}"></script>
+	<script th:src="@{/assets/demo/chart-bar-demo.js}"></script>
+	<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+	<script th:src="@{/js/datatables-simple-demo.js}"></script>
+</body>
+</html>
