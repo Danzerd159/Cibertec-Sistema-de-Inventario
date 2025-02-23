@@ -5,6 +5,9 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.*;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,11 +25,14 @@ public class UsuarioController {
 	
     @Autowired
     private UsuarioService usuarioService;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
  
     @GetMapping("/")
     public String mostrarLogin() {
         logger.info("Se accedió a la página de login");
-        return "login"; // Muestra login.html
+        return "login"; 
     }
 
     @PostMapping("/login")
@@ -34,24 +40,30 @@ public class UsuarioController {
                         @RequestParam String password, 
                         Model model) {
         try {
-        	
-            Usuario usuario = usuarioService.verificarCredenciales(username, password);
+            Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(username, password));
+
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            Usuario usuario = usuarioService.obtenerPorUsername(username);
             model.addAttribute("nombre_completo", usuario.getNombreCompleto());
+
             if (usuario.getRol() == Rol.ADMIN) {
-            	logger.info("Inicio de sesión exitoso para el usuario: {} con rol: {}", username, usuario.getRol());
-            	return "redirect:/administrador/index";//redireccionar a la vista del administrador
-			} else if(usuario.getRol() == Rol.EMPLEADOR){
-				logger.info("Inicio de sesión exitoso para el usuario: {} con rol: {}", username, usuario.getRol());
-				return "redirect:/empleador/index";//redireccionar a la vista del empleado
-			} else {
-				logger.warn("Usuario {} tiene un rol desconocido. ", usuario.getUsername());
-				model.addAttribute("error", "Usuario con un rol desconodico, pregunte al administrador");
-				return "login";
-			}
-        } catch (RuntimeException e) {
-            logger.warn("Intento fallido de inicio de sesión con usuario: {}", username);
+                logger.info("Inicio de sesión exitoso: {} (ADMIN)", username);
+                return "redirect:/administrador/index";
+            } else if (usuario.getRol() == Rol.EMPLEADOR) {
+                logger.info("Inicio de sesión exitoso: {} (EMPLEADOR)", username);
+                return "redirect:/empleador/index";
+            } else {
+                logger.warn("Usuario {} con rol desconocido", username);
+                model.addAttribute("error", "Rol desconocido. Contacte al administrador.");
+                return "login";
+            }
+
+        } catch (Exception e) {
+            logger.warn("Intento fallido de inicio de sesión: {}", username);
             model.addAttribute("error", "Usuario o contraseña incorrectos");
-            return "login"; // Si falla, regresa a login
+            return "login";
         }
     }
     

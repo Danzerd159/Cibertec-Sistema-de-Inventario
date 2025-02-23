@@ -10,6 +10,7 @@ import com.proyecto.inventario.service.UsuarioService;
 import com.proyecto.inventario.service.VentaService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -108,8 +109,9 @@ public class AdministradorController {
 	public String guardarVenta(@RequestParam("cantidad[]") List<Integer> cantidades,
 	                           @RequestParam("productoId[]") List<Long> productoIds) {
 
-	    Long usuarioId = 1L; // Suponiendo que siempre es el usuario con ID 1
-	    ventaService.guardarVenta(cantidades, productoIds, usuarioId);
+	    String username = SecurityContextHolder.getContext().getAuthentication().getName();
+	    Usuario usuario = usuarioService.obtenerPorUsername(username);
+	    ventaService.guardarVenta(cantidades, productoIds, usuario.getId());
 
 	    return "redirect:/administrador/ventas/lista";
 	}
